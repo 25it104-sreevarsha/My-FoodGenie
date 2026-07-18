@@ -41,7 +41,7 @@ OrderIt is a full-stack AI-powered Food Delivery Website built using the MERN St
 ### Clone Repository
 
 ```bash
-git clone 
+git clone https://github.com/25it104-sreevarsha/My-FoodGenie.git
 ```
 
 ### Backend
