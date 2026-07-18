@@ -41,7 +41,7 @@ OrderIt is a full-stack AI-powered Food Delivery Website built using the MERN St
 ### Clone Repository
 
 ```bash
-git clone https://github.com/Codernish2407/OrderIt.git
+git clone 
 ```
 
 ### Backend
@@ -65,11 +65,11 @@ npm run dev
 Create a `.env` file inside the backend folder and configure the required API keys.
 
 ## 🚀 Live Demo
-https://ai-food-delivery-website.vercel.app
+https://food-genie-git-main-sree-varsha-ms-projects.vercel.app/
 
 ## 👩‍💻 Developed By
 
-**Nishtha Banerjee**
+**Sree Varsha M**
 
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react)
