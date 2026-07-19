@@ -12,23 +12,24 @@ const Restaurant = ({ restaurant }) => {
 
   const { isAuthenticated, user } = useSelector((state) => state.user || {});
 
-  // 3. Function to fetch summary from Backend
+    // 3. Function to fetch summary from Backend
   const fetchSummary = async () => {
-    if (!showAI && !summary) { // Only fetch if opening and we don't have it yet
+    if (!showAI && !summary) { 
       setLoading(true);
       try {
-        const { data } = await axios.post("/api/v1/ai/generate-review-summary", {
+        // Updated to point to your live Render backend
+        const { data } = await axios.post("https://my-foodgenie.onrender.com/api/v1/ai/generate-review-summary", {
           restaurantId: restaurant._id
         });
         setSummary(data.data.summary);
       } catch (err) {
+        console.error("AI Summary Error:", err);
         setSummary("Could not generate summary. Enjoy the food! 😊");
       }
       setLoading(false);
     }
     setShowAI(!showAI);
   };
-
   const handleDelete = () => {
     if (!window.confirm("Delete this restaurant?")) return;
     dispatch(deleteRestaurant(restaurant._id)).catch(() => {
