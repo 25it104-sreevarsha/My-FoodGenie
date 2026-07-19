@@ -6,6 +6,8 @@ const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const Restaurant = require("../models/restaurant");
 const {analyzeReviewsWithAI}= require("../services/aiReviewAnalyzer")
 
+const Review = require("../models/reviewModel");
+
 exports.generateFoodAI = catchAsync(async (req,res) =>{
     const {name,category,spiceLevel,price} = req.body;
     if(!name || !category || !spiceLevel || !price){
@@ -152,4 +154,52 @@ exports.addReview = catchAsync(async (req, res) => {
     message: "Review Added Successfully",
     restaurant,
   });
+});
+
+
+
+
+exports.getReviewSummary = catchAsync(async (req, res) => {
+    const { restaurantId } = req.body;
+    
+    // Fetch reviews from your DB
+    const reviews = await Review.find({ restaurant: restaurantId });
+    const reviewText = reviews.map(r => r.comment).join(" ");
+
+    const summary = await aiService.generateReviewSummary(reviewText);
+
+    res.status(200).json({
+        success: true,
+        data: { summary }
+    });
+});
+
+// Add this to the bottom of backend/controllers/ai.controller.js
+
+
+exports.generateReviewSummary = catchAsync(async (req, res) => {
+    const { restaurantId } = req.body;
+
+    // 2. Find the restaurant by ID to get the embedded reviews array
+    const restaurant = await Restaurant.findById(restaurantId);
+
+    if (!restaurant || !restaurant.reviews || restaurant.reviews.length === 0) {
+        return res.status(200).json({
+            success: true,
+            data: { summary: "No reviews found for this restaurant yet. 😊" }
+        });
+    }
+
+    // 3. Map the comments (Note: your JSON uses "Comment" with a capital C)
+    const reviewText = restaurant.reviews
+        .map(r => r.Comment || r.comment) 
+        .join(". ");
+
+    // 4. Send to Groq AI
+    const summary = await aiService.generateReviewSummary(reviewText);
+
+    res.status(200).json({
+        success: true,
+        data: { summary }
+    });
 });

@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const cloudinary = require("cloudinary");
 const fileUpload = require("express-fileupload");
 const cors = require("cors");
+const review = require("./routes/reviewRoute");
 
 const aiRoutes = require("./routes/ai.routes");
 
@@ -51,7 +52,7 @@ app.use("/api/v1/eats", foodRouter);
 app.use("/api/v1/eats/menus", menuRouter);
 app.use("/api/v1/eats/stores", restaurant);
 app.use("/api/v1/eats/orders", order);
-// app.use("/api/v1/reviews", review);
+ app.use("/api/v1/reviews", review);
 app.use("/api/v1/users", auth);
 app.use("/api/v1", payment);
 app.use("/api/v1/coupon", coupon);

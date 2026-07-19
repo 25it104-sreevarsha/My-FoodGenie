@@ -24,7 +24,7 @@ router.post("/generate-food-ai/:foodId", (req, res, next) => {
 //analyzer
 router.put("/admin/restaurants/:id/analyze", aiController.analyzeRestaurantReviews)
 
-
+router.post("/generate-review-summary", aiController.generateReviewSummary);
 
 
 // const restaurantController = require(
