@@ -49,8 +49,8 @@ exports.processPayment = catchAsyncErrors(async (req, res, next) => {
         },
       },
     ],
-    success_url: `${process.env.FRONTEND_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.FRONTEND_URL}/cart`,
+    success_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/success`,
+cancel_url: `${process.env.FRONTEND_URL || 'http://localhost:5173'}/cancel`,
   });
   res.status(200).json({ url: session.url });
 });
