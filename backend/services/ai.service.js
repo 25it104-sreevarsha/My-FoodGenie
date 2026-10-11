@@ -42,7 +42,7 @@ Return JSON in this EXACT format:
       model: process.env.GROQ_MODEL || "openai/gpt-oss-20b",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.4,
-      max_tokens: 300,
+      max_tokens: 1000,
     },
     {
       headers: {
