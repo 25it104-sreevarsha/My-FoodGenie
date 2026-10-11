@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteRestaurant } from "../redux/actions/restaurantAction";
-import axios from "axios"; // 1. Import axios
+import api from "../utils/api"; // 1. Import axios
 
 const Restaurant = ({ restaurant }) => {
   const dispatch = useDispatch();
@@ -18,9 +18,7 @@ const Restaurant = ({ restaurant }) => {
       setLoading(true);
       try {
         // Updated to point to your live Render backend
-        const { data } = await axios.post("https://my-foodgenie.onrender.com/api/v1/ai/generate-review-summary", {
-          restaurantId: restaurant._id
-        });
+         const { data } = await api.post("/v1/ai/generate-review-summary", { restaurantId: restaurant._id });
         setSummary(data.data.summary);
       } catch (err) {
         console.error("AI Summary Error:", err);
