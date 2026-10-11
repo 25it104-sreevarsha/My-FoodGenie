@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getMenus, addItemToMenu, createMenu } from "../redux/actions/menuActions"; 
 import { getRestaurants } from "../redux/actions/restaurantAction";
 import Fooditem from "./Fooditem";
-import axios from "axios";
+import api from "../utils/api";
 
 const Menu = () => {
   const { id } = useParams();
@@ -43,7 +43,7 @@ const Menu = () => {
 
   const fetchItems = async () => {
     try {
-      const { data } = await axios.get(`/api/v1/eats/items/${id}`);
+      const { data } = await api.get(`/v1/eats/items/${id}`);
       setAvailableItems(data.data);
     } catch (err) {
       console.error("failed to load items", err);
@@ -55,10 +55,10 @@ const Menu = () => {
     setLoadingSummary(true);
     setShowReviewModal(true);
     try {
-      const { data } = await axios.post(
-        "/api/v1/ai/generate-review-summary",
+      const { data } = await api.post(
+        "/v1/ai/generate-review-summary",
         { restaurantId: id },
-        { withCredentials: true }
+       // { withCredentials: true }
       );
       setReviewSummary(data.data.summary);
     } catch (err) {
@@ -94,9 +94,9 @@ const Menu = () => {
         restaurant: id,
       };
 
-      const { data } = await axios.post("/api/v1/eats/item", payload, {
+      const { data } = await api.post("/v1/eats/item", payload, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+        //withCredentials: true,
       });
 
       const created = data.data;
@@ -123,8 +123,8 @@ const Menu = () => {
           const deleteMenu = async () => {
             if (!window.confirm("Delete this menu category?")) return;
             try {
-              await axios.delete(`/api/v1/eats/stores/${id}/menus/${menu._id}`, {
-                withCredentials: true,
+              await api.delete(`/v1/eats/stores/${id}/menus/${menu._id}`, {
+               // withCredentials: true,
               });
               dispatch(getMenus(id));
             } catch (err) {
@@ -303,15 +303,15 @@ const Menu = () => {
                   onClick={async () => {
                     if (!newFood.name) return alert("Enter name first");
                     try {
-                      const { data } = await axios.post(
-                        "/api/v1/ai/generate-food-ai",
+                      const { data } = await api.post(
+                        "/v1/ai/generate-food-ai",
                         {
                           name: newFood.name,
                           category: itemToAdd.category || "",
                           spiceLevel: "Medium",
                           price: newFood.price || 0,
                         },
-                        { withCredentials: true }
+                        //{ withCredentials: true }
                       );
                       setNewFood({ ...newFood, description: data.data.description });
                     } catch (err) {
